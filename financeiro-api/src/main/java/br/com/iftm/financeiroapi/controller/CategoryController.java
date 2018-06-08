@@ -28,9 +28,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
         try {
-            categoryService.delete(new Category(id));
+            categoryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }  catch(Exception e) {
             String msg =  "Erro na deleção de categoria. Motivo: " + e.getMessage();

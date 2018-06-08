@@ -30,9 +30,9 @@ public class EntryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
         try {
-            entryService.delete(new Entry(id));
+            entryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }  catch(Exception e) {
             String msg =  "Erro na deleção do lançamento financeiro. Motivo: " + e.getMessage();

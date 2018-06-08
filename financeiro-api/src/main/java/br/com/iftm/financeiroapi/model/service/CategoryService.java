@@ -10,7 +10,7 @@ public interface CategoryService {
 
     Category save(Category category);
 
-    void delete(Category category);
+    void delete(String id);
 
     List<Category> findAll();
 

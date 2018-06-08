@@ -16,11 +16,12 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository categoryRepository;
 
     public Category save(Category category) {
-        return categoryRepository.save(category);
+        categoryRepository.save(category);
+        return category;
     }
 
-    public void delete(Category category){
-        categoryRepository.delete(category);
+    public void delete(String id){
+        categoryRepository.delete(id);
     }
 
     public List<Category> findAll(){
@@ -28,7 +29,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     public Category findOne(Long id){
-        return categoryRepository.findById(id).orElse(null);
+//        return categoryRepository.findById(id).orElse(null);
+        return null;
     }
 
 }

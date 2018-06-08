@@ -10,7 +10,7 @@ public interface EntryService {
 
     Entry save(Entry entry);
 
-    void delete(Entry entry);
+    void delete(String id);
 
     List<Entry> findAll();
 

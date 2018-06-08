@@ -16,12 +16,13 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public Entry save(Entry entry) {
-        return entryRepository.save(entry);
+        entryRepository.save(entry);
+        return entry;
     }
 
     @Override
-    public void delete(Entry entry) {
-        entryRepository.delete(entry);
+    public void delete(String id) {
+        entryRepository.delete(id);
     }
 
     @Override
@@ -31,6 +32,7 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public Entry findById(Long id) {
-        return entryRepository.findById(id).orElse(null);
+        //return entryRepository.findById(id).orElse(null);
+        return null;
     }
 }

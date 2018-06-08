@@ -1,51 +1,30 @@
 package br.com.iftm.financeiroapi.model.domain;
 
-import javax.persistence.*;
+import br.com.iftm.financeiroapi.model.utils.IdentifierUtil;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-@Entity(name = "entry")
 public class Entry implements Serializable {
 
     private static final long serialVersionUID = 770094988982430952L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_entry")
-    private Long id;
-
-    @Column(name = "description")
+    private String id;
     private String description;
-
-    @Column(name = "entryDate")
     private LocalDate date;
-
-    @Column(name = "value")
     private BigDecimal value;
-
-    @OneToMany
-    @JoinTable(
-            name = "entryCategories",
-            joinColumns = @JoinColumn(name = "id_entry"),
-            inverseJoinColumns = @JoinColumn(name = "id_category")
-    )
     private Set<Category> categories;
 
     public Entry() {
-
+        this.id = IdentifierUtil.generateUUID();
     }
 
-    public Entry(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
