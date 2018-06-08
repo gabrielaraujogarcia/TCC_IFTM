@@ -1,19 +1,33 @@
 package br.com.iftm.financeiroapi.model.domain;
 
 import br.com.iftm.financeiroapi.model.utils.IdentifierUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Set;
 
 public class Entry implements Serializable {
 
     private static final long serialVersionUID = 770094988982430952L;
+
+    @ApiModelProperty(hidden = true)
     private String id;
+
     private String description;
-    private LocalDate date;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private Date date;
+
     private BigDecimal value;
+
     private Set<Category> categories;
 
     public Entry() {
@@ -36,11 +50,11 @@ public class Entry implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

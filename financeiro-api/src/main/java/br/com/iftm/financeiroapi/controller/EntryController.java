@@ -1,8 +1,6 @@
 package br.com.iftm.financeiroapi.controller;
 
-import br.com.iftm.financeiroapi.model.domain.Category;
 import br.com.iftm.financeiroapi.model.domain.Entry;
-import br.com.iftm.financeiroapi.model.service.CategoryService;
 import br.com.iftm.financeiroapi.model.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,18 +27,6 @@ public class EntryController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
-        try {
-            entryService.delete(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }  catch(Exception e) {
-            String msg =  "Erro na deleção do lançamento financeiro. Motivo: " + e.getMessage();
-            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
     @GetMapping
     public ResponseEntity<Object> findAll() {
         try {
@@ -50,11 +36,10 @@ public class EntryController {
             String msg =  "Erro na listagem de lançamentos financeiro. Motivo: " + e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Object> findById(@PathVariable("id") String id) {
         try {
             Entry entry = entryService.findById(id);
             return new ResponseEntity<>(entry, HttpStatus.OK);
@@ -62,6 +47,16 @@ public class EntryController {
             String msg =  "Erro na consulta do lançamentos financeiro. Motivo: " + e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
+        try {
+            entryService.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }  catch(Exception e) {
+            String msg =  "Erro na deleção do lançamento financeiro. Motivo: " + e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

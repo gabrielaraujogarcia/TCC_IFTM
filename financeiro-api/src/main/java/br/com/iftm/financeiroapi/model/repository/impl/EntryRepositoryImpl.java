@@ -3,29 +3,65 @@ package br.com.iftm.financeiroapi.model.repository.impl;
 import br.com.iftm.financeiroapi.model.domain.Entry;
 import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import br.com.iftm.financeiroapi.model.repository.EntryRepository;
-import br.com.iftm.financeiroapi.model.utils.FileUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class EntryRepositoryImpl implements EntryRepository {
 
-    private static final String ENTRIES_FILE_PATH = "src/main/resources/database/entries.txt";
+    private static final String ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt";
+    private static final Path PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH);
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
+    public EntryRepositoryImpl() throws BusinessException {
+        //validar ao realizar a injecao de dependencias do projeto, no deploy da aplicacao
+        validatePath();
+    }
 
     @Override
-    public void save(Entry entry) {
-        try {
-            FileUtil.writeLine(ENTRIES_FILE_PATH, entry);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (BusinessException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public void save(Entry entry) throws IOException {
+        String line = new ObjectMapper().writeValueAsString(entry);
+        Files.write(PATH, line.getBytes(Charset.forName("UTF-8")), StandardOpenOption.APPEND);
+        Files.write(PATH, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
+    }
+
+    @Override
+    public List<Entry> findAll() throws IOException {
+
+        List<Entry> entries = new ArrayList<>();
+        Files.readAllLines(PATH).stream()
+                .filter(line ->  !line.isEmpty())
+                .forEach(line -> {
+                    try {
+                        entries.add(new ObjectMapper().readValue(line, Entry.class));
+                    } catch (IOException e) {
+                        log.error("Erro ao serializar a linha. Motivo: " + e.getMessage());
+                    }
+                });
+
+        return entries;
+
+    }
+
+    @Override
+    public Entry findById(String id) throws IOException, BusinessException {
+        return findAll().stream()
+                .filter(e -> e.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("Registro não encontrado!"));
     }
 
     @Override
@@ -38,13 +74,11 @@ public class EntryRepositoryImpl implements EntryRepository {
 
     }
 
-    @Override
-    public Entry findById(String id) {
-        return null;
-    }
-
-    @Override
-    public List<Entry> findAll() {
-        return null;
+    private void validatePath() throws BusinessException {
+        if(!Files.exists(PATH)) {
+            String msg = "O arquivo " + ENTRIES_FILE_PATH + " não existe!";
+            log.error(msg);
+            throw new BusinessException(msg);
+        }
     }
 }
