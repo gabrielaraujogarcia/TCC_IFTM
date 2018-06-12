@@ -12,7 +12,7 @@ public interface EntryService {
 
     Entry save(Entry entry) throws IOException, BusinessException;
 
-    void delete(String id);
+    void delete(String id) throws IOException;
 
     List<Entry> findAll() throws IOException, BusinessException;
 

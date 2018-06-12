@@ -14,11 +14,11 @@ public interface EntryRepository {
 
     void save(Entry entry) throws IOException;
 
-    void update(Entry entry);
+    void update(Entry entry) throws IOException;
 
-    void delete(String id);
+    void delete(String id) throws IOException;
 
-    Entry findById(String id) throws IOException, BusinessException;
+    Entry findById(String id) throws IOException;
 
     List<Entry> findAll() throws IOException;
 

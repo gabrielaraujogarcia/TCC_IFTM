@@ -24,7 +24,14 @@ public class EntryServiceImpl implements EntryService {
     public Entry save(Entry entry) throws IOException {
 
         try {
-            entryRepository.save(entry);
+
+            Entry aux = entryRepository.findById(entry.getId());
+            if(aux != null) {
+                entryRepository.update(entry);
+            } else {
+                entryRepository.save(entry);
+            }
+
         } catch (IOException e) {
             log.error("Erro inesperado ao salvar: " + e.getMessage());
             throw e;
@@ -37,7 +44,14 @@ public class EntryServiceImpl implements EntryService {
     public Entry findById(String id) throws IOException, BusinessException {
 
         try {
-            return entryRepository.findById(id);
+
+            Entry entry = entryRepository.findById(id);
+            if(entry == null) {
+                throw new BusinessException("Registro não encontrado!");
+            }
+
+            return entry;
+
         } catch (IOException e) {
             log.error("Erro inesperado ao consultar por ID: " + e.getMessage());
             throw e;
@@ -51,7 +65,7 @@ public class EntryServiceImpl implements EntryService {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String id) throws IOException {
         entryRepository.delete(id);
     }
 

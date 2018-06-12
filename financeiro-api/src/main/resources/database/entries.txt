@@ -1,2 +1,2 @@
 {"id":"59B0B5ABB4D64571AA0DFDDE51F8C095","description":"Lançamento 1","date":"08/06/2018","value":10.09,"categories":[{"id":"58999129DB08419CB6BFAEEA626F10CF","name":"Categoria 2","color":"#FF2200"},{"id":"82CD0AEF42B643EFB399142B15D8B959","name":"Categoria 1","color":"#FF0011"}]}
-{"id":"C61DAD09492E43F5BBD0F8B1B9584E72","description":"Lançamento 2","date":"08/06/2018","value":10.09,"categories":[{"id":"4DBC71A54F75423DB7634798D209A76E","name":"Categoria 3","color":"#FF2211"}]}
+{"id":"C61DAD09492E43F5BBD0F8B1B9584E72","description":"Lançamento 2.1","date":"08/06/2018","value":10.09,"categories":[{"id":"4DBC71A54F75423DB7634798D209A76E","name":"Categoria 3","color":"#FF2211"},{"id":"46E40347ADD14CFAA0D48D7AD3FE1CB0","name":"Categoria 1","color":"#FF1111"}]}
