@@ -69,7 +69,4 @@ public class EntryServiceImpl implements EntryService {
         entryRepository.delete(id);
     }
 
-
-
-
 }

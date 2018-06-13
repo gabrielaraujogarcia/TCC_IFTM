@@ -73,4 +73,5 @@ public class Entry implements Serializable {
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+
 }

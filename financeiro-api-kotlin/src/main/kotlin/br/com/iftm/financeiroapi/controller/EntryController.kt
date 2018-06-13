@@ -14,22 +14,23 @@ class EntryController (val entryService: EntryService) {
     fun save(@RequestBody entry: Entry): ResponseEntity<Any> {
         try {
             val response = entryService.save(entry)
-            return ResponseEntity<Any>(response, HttpStatus.OK)
+            return ResponseEntity(response, HttpStatus.OK)
         } catch (e: Exception) {
             val msg = "Erro no cadastro de lançamento financeiro. Motivo: " + e.message
-            return ResponseEntity<Any>(msg, HttpStatus.INTERNAL_SERVER_ERROR)
+            e.printStackTrace()
+            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable("id") id: Long): ResponseEntity<Any> {
+    fun delete(@PathVariable("id") id: String): ResponseEntity<Any> {
         try {
-            entryService.delete(Entry(id))
-            return ResponseEntity<Any>(HttpStatus.OK)
+            entryService.delete(id)
+            return ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
             val msg = "Erro na deleção do lançamento financeiro. Motivo: " + e.message
-            return ResponseEntity<Any>(msg, HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     }
@@ -38,22 +39,22 @@ class EntryController (val entryService: EntryService) {
     fun findAll(): ResponseEntity<Any> {
         try {
             val entries = entryService.findAll()
-            return ResponseEntity<Any>(entries, HttpStatus.OK)
+            return ResponseEntity(entries, HttpStatus.OK)
         } catch (e: Exception) {
             val msg = "Erro na listagem de lançamentos financeiro. Motivo: " + e.message
-            return ResponseEntity<Any>(msg, HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable("id") id: Long): ResponseEntity<Any> {
+    fun findById(@PathVariable("id") id: String): ResponseEntity<Any> {
         try {
             val entry = entryService.findById(id)
-            return ResponseEntity<Any>(entry, HttpStatus.OK)
+            return ResponseEntity(entry, HttpStatus.OK)
         } catch (e: Exception) {
             val msg = "Erro na consulta do lançamentos financeiro. Motivo: " + e.message
-            return ResponseEntity<Any>(msg, HttpStatus.INTERNAL_SERVER_ERROR)
+            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
 
     }

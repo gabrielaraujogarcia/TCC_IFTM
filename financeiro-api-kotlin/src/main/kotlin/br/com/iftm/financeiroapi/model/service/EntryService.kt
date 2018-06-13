@@ -8,9 +8,9 @@ interface EntryService {
 
     fun save(entry: Entry): Entry
 
-    fun delete(entry: Entry)
+    fun delete(id: String)
 
     fun findAll(): List<Entry>
 
-    fun findById(id: Long): Entry
+    fun findById(id: String): Entry?
 }
