@@ -3,7 +3,8 @@ package br.com.iftm.financeiroapi.model.repository.impl
 import br.com.iftm.financeiroapi.model.domain.Entry
 import br.com.iftm.financeiroapi.model.exceptions.BusinessException
 import br.com.iftm.financeiroapi.model.repository.EntryRepository
-
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import java.nio.charset.Charset
@@ -18,7 +19,7 @@ class EntryRepositoryImpl: EntryRepository {
     private val ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt"
     private val PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH)
     private val log = LoggerFactory.getLogger(this.javaClass)
-
+    private val mapper = ObjectMapper().registerModule(KotlinModule())
 
     init {
         log.info("Validação do path ${PATH.toString()}")
@@ -27,7 +28,7 @@ class EntryRepositoryImpl: EntryRepository {
     }
 
     override fun save(entry: Entry) {
-        val line =
+        val line = mapper.writeValueAsString(entry)
         Files.write(PATH, line.toByteArray(Charset.forName("UTF-8")), StandardOpenOption.APPEND)
         Files.write(PATH, System.getProperty("line.separator").toByteArray(), StandardOpenOption.APPEND)
     }
@@ -37,7 +38,7 @@ class EntryRepositoryImpl: EntryRepository {
 
         Files.readAllLines(PATH)
                 .filter {line -> line.isNotBlank() }
-                .forEach{line -> entries.add(JSON.parse(line))}
+                .forEach{line -> entries.add(mapper.readValue(line, Entry::class.java))}
 
         return entries
 
@@ -54,9 +55,9 @@ class EntryRepositoryImpl: EntryRepository {
 
         findAll().forEach { e ->
                 if (e.id == entry.id) {
-                    updated.add(JSON.stringify(entry))
+                    updated.add(mapper.writeValueAsString(entry))
                 } else {
-                    updated.add(JSON.stringify(e))
+                    updated.add(mapper.writeValueAsString(e))
                 }
         }
 
@@ -68,7 +69,7 @@ class EntryRepositoryImpl: EntryRepository {
 
         findAll().forEach { e ->
             if (e.id != id) {
-                updated.add(JSON.stringify(e))
+                updated.add(mapper.writeValueAsString(e))
             }
         }
 

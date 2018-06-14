@@ -1,7 +1,6 @@
 package br.com.iftm.financeiroapi.model.domain
 
 import io.swagger.annotations.ApiModelProperty
-import kotlinx.serialization.Serializable
 import java.util.*
 
 data class Category (
@@ -13,4 +12,10 @@ data class Category (
 
         var color: String = ""
 
+
 )
+//{
+//    override fun toString(): String {
+//        return "{\"id\":\"$id\", \"name\":\"$name\", \"color\":\"$color\"}"
+//    }
+//}
