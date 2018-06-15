@@ -1,39 +1,23 @@
 package br.com.iftm.financeiroapi.model.domain;
 
 
+import br.com.iftm.financeiroapi.model.utils.IdentifierUtil;
+import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.*;
-import java.io.Serializable;
+public class Category {
 
-@Entity(name = "category")
-public class Category implements Serializable {
+    @ApiModelProperty(hidden = true)
+    private String id = IdentifierUtil.generateUUID();
 
-    private static final long serialVersionUID = -8634160690880965387L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_category")
-    private Long id;
-
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "color")
     private String color;
 
-    public Category() {
-
-    }
-
-    public Category(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -52,4 +36,5 @@ public class Category implements Serializable {
     public void setColor(String color) {
         this.color = color;
     }
+
 }

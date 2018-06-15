@@ -1,10 +1,22 @@
 package br.com.iftm.financeiroapi.model.repository;
 
 import br.com.iftm.financeiroapi.model.domain.Entry;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
-@Repository
-public interface EntryRepository extends JpaRepository<Entry, Long> {
+import java.io.IOException;
+import java.util.List;
+
+@Component
+public interface EntryRepository {
+
+    void save(Entry entry) throws IOException;
+
+    void update(Entry entry) throws IOException;
+
+    void delete(String id) throws IOException;
+
+    Entry findById(String id) throws IOException;
+
+    List<Entry> findAll() throws IOException;
 
 }

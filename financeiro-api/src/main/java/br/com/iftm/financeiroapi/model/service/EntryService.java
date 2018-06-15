@@ -1,19 +1,23 @@
 package br.com.iftm.financeiroapi.model.service;
 
 import br.com.iftm.financeiroapi.model.domain.Entry;
+import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public interface EntryService {
 
-    Entry save(Entry entry);
+    Entry save(Entry entry) throws IOException, BusinessException;
 
-    void delete(Entry entry);
+    void delete(String id) throws IOException;
 
-    List<Entry> findAll();
+    List<Entry> findAll() throws IOException, BusinessException;
 
-    Entry findById(Long id);
+    Entry findById(String id) throws IOException, BusinessException;
+
+    List<Entry> findByCategoryName(String categoryName) throws IOException;
 
 }

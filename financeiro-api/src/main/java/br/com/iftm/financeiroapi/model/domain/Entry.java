@@ -1,51 +1,37 @@
 package br.com.iftm.financeiroapi.model.domain;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import br.com.iftm.financeiroapi.model.utils.IdentifierUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "entry")
-public class Entry implements Serializable {
+public class Entry {
 
-    private static final long serialVersionUID = 770094988982430952L;
+    @ApiModelProperty(hidden = true)
+    private String id;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_entry")
-    private Long id;
-
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "entryDate")
-    private LocalDate date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date date;
 
-    @Column(name = "value")
     private BigDecimal value;
 
-    @OneToMany
-    @JoinTable(
-            name = "entryCategories",
-            joinColumns = @JoinColumn(name = "id_entry"),
-            inverseJoinColumns = @JoinColumn(name = "id_category")
-    )
     private Set<Category> categories;
 
     public Entry() {
-
+        this.id = IdentifierUtil.generateUUID();
     }
 
-    public Entry(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,11 +43,11 @@ public class Entry implements Serializable {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -74,10 +60,14 @@ public class Entry implements Serializable {
     }
 
     public Set<Category> getCategories() {
+        if(categories == null) {
+            categories = new HashSet<>();
+        }
         return categories;
     }
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+
 }

@@ -1,22 +1,15 @@
 package br.com.iftm.financeiroapi.model.domain
 
-import javax.persistence.*
-import javax.validation.constraints.NotBlank
+import io.swagger.annotations.ApiModelProperty
+import java.util.*
 
-@Entity(name = "category")
 data class Category (
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_category")
-    var id: Long = 0,
+        @ApiModelProperty(hidden = true)
+        var id: String = UUID.randomUUID().toString(),
 
-    @Column(name = "name")
-    @get: NotBlank
-    var name: String = "",
+        var name: String = "",
 
-    @Column(name = "color")
-    @get: NotBlank
-    var color: String = ""
+        var color: String = ""
 
 )

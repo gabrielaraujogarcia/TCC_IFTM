@@ -1,32 +1,23 @@
 package br.com.iftm.financeiroapi.model.domain
 
+import com.fasterxml.jackson.annotation.JsonFormat
+import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
-import java.time.LocalDate
-import javax.persistence.*
+import java.util.*
 
-@Entity(name = "entry")
+
 data class Entry (
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_entry")
-    var id: Long = 0,
+        @ApiModelProperty(hidden = true)
+        var id: String = UUID.randomUUID().toString(),
 
-    @Column(name = "description")
-    var description: String? = "",
+        var description: String = "",
 
-    @Column(name = "entryDate")
-    var date: LocalDate = LocalDate .now(),
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+        var date: Date = Date(),
 
-    @Column(name = "value")
-    var value: BigDecimal = BigDecimal.ZERO,
+        var value: BigDecimal = BigDecimal.ZERO,
 
-    @OneToMany
-    @JoinTable(
-            name = "entryCategories",
-            joinColumns = arrayOf(JoinColumn(name = "id_entry")),
-            inverseJoinColumns = arrayOf(JoinColumn(name = "id_category"))
-    )
-    var categories: List<Category> = emptyList()
+        var categories: Set<Category> = emptySet()
 
 )
