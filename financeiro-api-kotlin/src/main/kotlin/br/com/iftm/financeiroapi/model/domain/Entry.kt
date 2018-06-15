@@ -14,7 +14,7 @@ data class Entry (
 
         var description: String = "",
 
-        @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         var date: Date = Date(),
 
         var value: BigDecimal = BigDecimal.ZERO,
@@ -22,12 +22,3 @@ data class Entry (
         var categories: List<Category> = emptyList()
 
 )
-//{
-//    override fun toString(): String {
-//        val jsonCategories: StringBuilder = StringBuilder("[")
-//        categories.forEach{c -> jsonCategories.append(c.toString())}
-//        jsonCategories.append("]")
-//        return "{\"id\":\"$id\", \"description\":\"$description\", \"date\":\"$date\", \"value\":\"$value\", " +
-//                "\"categories\":$jsonCategories}"
-//    }
-//}

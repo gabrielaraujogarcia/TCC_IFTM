@@ -21,13 +21,15 @@ import java.util.List;
 @Component
 public class EntryRepositoryImpl implements EntryRepository {
 
-    private static final String ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt";
+    private static final String ENTRIES_FILE_PATH = "/financeiro-api-kotlin/src/main/resources/database/entries.txt";
     private static final Path PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH);
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public EntryRepositoryImpl() throws BusinessException {
         //validar ao realizar a injecao de dependencias do projeto, no deploy da aplicacao
+        log.info("Validação do path $PATH");
         validatePath();
+        log.info("Path OK");
     }
 
     @Override

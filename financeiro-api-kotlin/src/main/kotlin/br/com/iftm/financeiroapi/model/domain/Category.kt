@@ -14,8 +14,3 @@ data class Category (
 
 
 )
-//{
-//    override fun toString(): String {
-//        return "{\"id\":\"$id\", \"name\":\"$name\", \"color\":\"$color\"}"
-//    }
-//}

@@ -16,13 +16,13 @@ import java.nio.file.StandardOpenOption
 @Component
 class EntryRepositoryImpl: EntryRepository {
 
-    private val ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt"
+    private val ENTRIES_FILE_PATH = "/financeiro-api-kotlin/src/main/resources/database/entries.txt"
     private val PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH)
     private val log = LoggerFactory.getLogger(this.javaClass)
     private val mapper = ObjectMapper().registerModule(KotlinModule())
 
     init {
-        log.info("Validação do path ${PATH.toString()}")
+        log.info("Validação do path $PATH")
         validatePath()
         log.info("Path OK")
     }
