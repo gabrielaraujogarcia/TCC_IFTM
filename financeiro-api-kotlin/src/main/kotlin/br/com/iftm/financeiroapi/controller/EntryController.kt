@@ -56,7 +56,6 @@ class EntryController (val entryService: EntryService) {
             val msg = "Erro na consulta do lançamentos financeiro. Motivo: " + e.message
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-
     }
 
 }

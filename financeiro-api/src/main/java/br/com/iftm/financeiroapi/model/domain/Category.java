@@ -1,26 +1,17 @@
 package br.com.iftm.financeiroapi.model.domain;
 
 
-
 import br.com.iftm.financeiroapi.model.utils.IdentifierUtil;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
-
-public class Category implements Serializable {
-
-    private static final long serialVersionUID = -8634160690880965387L;
+public class Category {
 
     @ApiModelProperty(hidden = true)
-    private String id;
+    private String id = IdentifierUtil.generateUUID();
 
     private String name;
 
     private String color;
-
-    public Category() {
-        this.id = IdentifierUtil.generateUUID();
-    }
 
     public String getId() {
         return id;

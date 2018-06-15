@@ -1,0 +1,1 @@
+{"id":"FC3DA000B60A4122A8C771A24199C523","description":"string 2","date":"2018-06-15 00:31:46","value":0,"categories":[{"id":"D3D31994FE5A45DD992C1AFF0484EC8C","name":"string","color":"string"},{"id":"CAAAF7D0B27E4FB88A4FA811C8DEB0CE","name":"string 2","color":"string 2"}]}

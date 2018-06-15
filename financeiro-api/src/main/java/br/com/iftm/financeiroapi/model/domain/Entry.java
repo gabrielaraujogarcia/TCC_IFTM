@@ -2,28 +2,21 @@ package br.com.iftm.financeiroapi.model.domain;
 
 import br.com.iftm.financeiroapi.model.utils.IdentifierUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
-public class Entry implements Serializable {
-
-    private static final long serialVersionUID = 770094988982430952L;
+public class Entry {
 
     @ApiModelProperty(hidden = true)
     private String id;
 
     private String description;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date date;
 
     private BigDecimal value;
@@ -67,6 +60,9 @@ public class Entry implements Serializable {
     }
 
     public Set<Category> getCategories() {
+        if(categories == null) {
+            categories = new HashSet<>();
+        }
         return categories;
     }
 

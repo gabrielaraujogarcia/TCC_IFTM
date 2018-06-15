@@ -13,4 +13,6 @@ interface EntryService {
     fun findAll(): List<Entry>
 
     fun findById(id: String): Entry?
+
+    fun findByCategoryName(categoryName: String): List<Entry>
 }

@@ -21,12 +21,12 @@ import java.util.List;
 @Component
 public class EntryRepositoryImpl implements EntryRepository {
 
-    private static final String ENTRIES_FILE_PATH = "/financeiro-api-kotlin/src/main/resources/database/entries.txt";
+    private static final String ENTRIES_FILE_PATH = "/financeiro-api/src/main/resources/database/entries.txt";
     private static final Path PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH);
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public EntryRepositoryImpl() throws BusinessException {
-        //validar ao realizar a injecao de dependencias do projeto, no deploy da aplicacao
         log.info("Validação do path $PATH");
         validatePath();
         log.info("Path OK");
@@ -34,27 +34,24 @@ public class EntryRepositoryImpl implements EntryRepository {
 
     @Override
     public void save(Entry entry) throws IOException {
-        String line = new ObjectMapper().writeValueAsString(entry);
+        String line = mapper.writeValueAsString(entry);
         Files.write(PATH, line.getBytes(Charset.forName("UTF-8")), StandardOpenOption.APPEND);
         Files.write(PATH, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
     }
 
     @Override
     public List<Entry> findAll() throws IOException {
-
         List<Entry> entries = new ArrayList<>();
         Files.readAllLines(PATH).stream()
                 .filter(line ->  !line.isEmpty())
                 .forEach(line -> {
                     try {
-                        entries.add(new ObjectMapper().readValue(line, Entry.class));
+                        entries.add(mapper.readValue(line, Entry.class));
                     } catch (IOException e) {
                         log.error("Erro ao serializar a linha. Motivo: " + e.getMessage());
                     }
                 });
-
         return entries;
-
     }
 
     @Override
@@ -68,10 +65,7 @@ public class EntryRepositoryImpl implements EntryRepository {
     @Override
     public void update(Entry entry) throws IOException {
         List<String> updated = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-
         findAll().stream().forEach(e -> {
-
             try {
                 if (e.getId().equals(entry.getId())) {
                     updated.add(mapper.writeValueAsString(entry));
@@ -81,19 +75,14 @@ public class EntryRepositoryImpl implements EntryRepository {
             } catch (JsonProcessingException ex) {
                 ex.printStackTrace();
             }
-
         });
-
         Files.write(PATH, updated);
     }
 
     @Override
     public void delete(String id) throws IOException {
         List<String> updated = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
-
         findAll().stream().forEach(e -> {
-
             if (!e.getId().equals(id)) {
                 try {
                     updated.add(mapper.writeValueAsString(e));
@@ -101,9 +90,7 @@ public class EntryRepositoryImpl implements EntryRepository {
                     ex.printStackTrace();
                 }
             }
-
         });
-
         Files.write(PATH, updated);
     }
 
@@ -114,4 +101,5 @@ public class EntryRepositoryImpl implements EntryRepository {
             throw new BusinessException(msg);
         }
     }
+
 }

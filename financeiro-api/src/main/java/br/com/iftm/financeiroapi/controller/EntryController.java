@@ -59,4 +59,15 @@ public class EntryController {
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{categoryName}")
+    public ResponseEntity<Object> findByCategoryName(@PathVariable("categoryName") String categoryName) {
+        try {
+            List<Entry> entries = entryService.findByCategoryName(categoryName);
+            return new ResponseEntity<>(entries, HttpStatus.OK);
+        }  catch(Exception e) {
+            String msg =  "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

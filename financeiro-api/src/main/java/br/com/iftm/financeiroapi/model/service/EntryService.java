@@ -18,4 +18,6 @@ public interface EntryService {
 
     Entry findById(String id) throws IOException, BusinessException;
 
+    List<Entry> findByCategoryName(String categoryName) throws IOException;
+
 }

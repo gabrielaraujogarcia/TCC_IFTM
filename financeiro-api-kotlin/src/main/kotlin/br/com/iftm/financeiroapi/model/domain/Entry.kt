@@ -3,7 +3,6 @@ package br.com.iftm.financeiroapi.model.domain
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
-import java.time.LocalDate
 import java.util.*
 
 
@@ -19,6 +18,6 @@ data class Entry (
 
         var value: BigDecimal = BigDecimal.ZERO,
 
-        var categories: List<Category> = emptyList()
+        var categories: Set<Category> = emptySet()
 
 )

@@ -12,5 +12,4 @@ data class Category (
 
         var color: String = ""
 
-
 )

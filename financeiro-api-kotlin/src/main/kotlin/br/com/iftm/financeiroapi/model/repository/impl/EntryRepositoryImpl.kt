@@ -35,11 +35,9 @@ class EntryRepositoryImpl: EntryRepository {
 
     override fun findAll(): List<Entry> {
         val entries = ArrayList<Entry>()
-
         Files.readAllLines(PATH)
                 .filter {line -> line.isNotBlank() }
                 .forEach{line -> entries.add(mapper.readValue(line, Entry::class.java))}
-
         return entries
 
     }
@@ -52,7 +50,6 @@ class EntryRepositoryImpl: EntryRepository {
 
     override fun update(entry: Entry) {
         val updated = ArrayList<String>()
-
         findAll().forEach { e ->
                 if (e.id == entry.id) {
                     updated.add(mapper.writeValueAsString(entry))
@@ -60,19 +57,16 @@ class EntryRepositoryImpl: EntryRepository {
                     updated.add(mapper.writeValueAsString(e))
                 }
         }
-
         Files.write(PATH, updated)
     }
 
     override fun delete(id: String) {
         val updated = ArrayList<String>()
-
         findAll().forEach { e ->
             if (e.id != id) {
                 updated.add(mapper.writeValueAsString(e))
             }
         }
-
         Files.write(PATH, updated)
     }
 
