@@ -58,4 +58,15 @@ class EntryController (val entryService: EntryService) {
         }
     }
 
+    @GetMapping("/{categoryName}")
+    fun findByCategoryName(@PathVariable("categoryName") categoryName: String): ResponseEntity<Any> {
+        try {
+            val entries = entryService.findByCategoryName(categoryName)
+            return ResponseEntity(entries, HttpStatus.OK)
+        } catch (e: Exception) {
+            val msg = "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.message
+            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+
+    }
 }
