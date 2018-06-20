@@ -7,17 +7,12 @@ import java.util.*
 
 
 data class Entry (
-
-        @ApiModelProperty(hidden = true)
-        var id: String = UUID.randomUUID().toString(),
-
         var description: String = "",
-
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         var date: Date = Date(),
-
         var value: BigDecimal = BigDecimal.ZERO,
-
         var categories: Set<Category> = emptySet()
-
-)
+) {
+    @ApiModelProperty(hidden = true)
+    var id: String = UUID.randomUUID().toString()
+}

@@ -5,6 +5,8 @@ import br.com.iftm.financeiroapi.model.domain.Entry;
 import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import br.com.iftm.financeiroapi.model.repository.EntryRepository;
 import br.com.iftm.financeiroapi.model.service.EntryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,14 +17,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Logger;
+
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Component
 public class EntryServiceImpl implements EntryService {
 
-    private static final Logger logger = Logger.getLogger(EntryServiceImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(EntryServiceImpl.class.getName());
     private static final String DEFAULT_CATEGORY_NAME = "Categoria_";
     private static final String DEFAULT_ENTRY_NAME = "Lançamento_";
 

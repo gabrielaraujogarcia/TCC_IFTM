@@ -15,4 +15,6 @@ interface EntryService {
     fun findById(id: String): Entry?
 
     fun findByCategoryName(categoryName: String): List<Entry>
+
+    fun generateEntries()
 }
