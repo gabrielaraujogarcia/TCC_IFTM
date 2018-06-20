@@ -12,7 +12,7 @@ import java.util.Set;
 public class Entry {
 
     @ApiModelProperty(hidden = true)
-    private String id;
+    private String id = IdentifierUtil.generateUUID();
 
     private String description;
 
@@ -24,7 +24,15 @@ public class Entry {
     private Set<Category> categories;
 
     public Entry() {
+
+    }
+
+    public Entry(String description, Date date, BigDecimal value, Set<Category> categories) {
         this.id = IdentifierUtil.generateUUID();
+        this.description = description;
+        this.date = date;
+        this.value = value;
+        this.categories = categories;
     }
 
     public String getId() {

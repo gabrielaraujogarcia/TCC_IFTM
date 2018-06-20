@@ -20,4 +20,6 @@ public interface EntryService {
 
     List<Entry> findByCategoryName(String categoryName) throws IOException;
 
+    void generateEntries();
+
 }

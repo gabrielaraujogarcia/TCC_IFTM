@@ -49,6 +49,17 @@ public class EntryController {
         }
     }
 
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<Object> findByCategoryName(@PathVariable("categoryName") String categoryName) {
+        try {
+            List<Entry> entries = entryService.findByCategoryName(categoryName);
+            return new ResponseEntity<>(entries, HttpStatus.OK);
+        }  catch(Exception e) {
+            String msg =  "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.getMessage();
+            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") String id) {
         try {
@@ -60,13 +71,13 @@ public class EntryController {
         }
     }
 
-    @GetMapping("/{categoryName}")
-    public ResponseEntity<Object> findByCategoryName(@PathVariable("categoryName") String categoryName) {
+    @PostMapping("/generate")
+    public ResponseEntity<Object> generateEntries() {
         try {
-            List<Entry> entries = entryService.findByCategoryName(categoryName);
-            return new ResponseEntity<>(entries, HttpStatus.OK);
+            entryService.generateEntries();
+            return new ResponseEntity<>(HttpStatus.OK);
         }  catch(Exception e) {
-            String msg =  "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.getMessage();
+            String msg =  "Erro na carga de lançamentos financeiro. Motivo: " + e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

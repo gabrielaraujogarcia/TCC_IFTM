@@ -13,6 +13,15 @@ public class Category {
 
     private String color;
 
+    public Category() {
+
+    }
+
+    public Category(String name, String color) {
+        this.name = name;
+        this.color = color;
+    }
+
     public String getId() {
         return id;
     }

@@ -20,7 +20,6 @@ class EntryController (val entryService: EntryService) {
             e.printStackTrace()
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-
     }
 
     @DeleteMapping("/{id}")
@@ -32,7 +31,6 @@ class EntryController (val entryService: EntryService) {
             val msg = "Erro na deleção do lançamento financeiro. Motivo: " + e.message
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-
     }
 
     @GetMapping
@@ -44,7 +42,6 @@ class EntryController (val entryService: EntryService) {
             val msg = "Erro na listagem de lançamentos financeiro. Motivo: " + e.message
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-
     }
 
     @GetMapping("/{id}")
@@ -67,6 +64,5 @@ class EntryController (val entryService: EntryService) {
             val msg = "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.message
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-
     }
 }
