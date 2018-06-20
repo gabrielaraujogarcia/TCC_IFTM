@@ -5,6 +5,7 @@ import br.com.iftm.financeiroapi.model.domain.Entry;
 import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import br.com.iftm.financeiroapi.model.repository.EntryRepository;
 import br.com.iftm.financeiroapi.model.service.EntryService;
+import br.com.iftm.financeiroapi.model.utils.EntryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +123,17 @@ public class EntryServiceImpl implements EntryService {
         LocalTime end = LocalTime.now();
         localTimeDifference(start, end, "Tempo de execução da carga de " + range + " lançamentos financeiros: ");
         logger.info("Fim da carga de lançamentos financeiros");
+    }
+
+    @Override
+    public BigDecimal sumEntriesByCategory(String categoryName) throws IOException {
+        logger.info("Início da soma de lançamentos financeiros");
+        LocalTime start = LocalTime.now();
+        BigDecimal total = EntryUtil.sumEntries(findAll());
+        LocalTime end = LocalTime.now();
+        localTimeDifference(start, end, "Tempo para somar os lançamento financeiro pelo nome da categoria: ");
+        logger.info("Fim da soma de lançamentos financeiros");
+        return total;
     }
 
     private int randomNumber() {

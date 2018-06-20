@@ -16,7 +16,7 @@ class EntryController (val entryService: EntryService) {
             val response = entryService.save(entry)
             return ResponseEntity(response, HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro no cadastro de lançamento financeiro. Motivo: " + e.message
+            val msg = "Erro no cadastro de lançamento financeiro. Motivo: ${e.message}"
             e.printStackTrace()
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
@@ -28,7 +28,7 @@ class EntryController (val entryService: EntryService) {
             val entries = entryService.findAll()
             return ResponseEntity(entries, HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro na listagem de lançamentos financeiro. Motivo: " + e.message
+            val msg = "Erro na listagem de lançamentos financeiro. Motivo: ${e.message}"
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -39,7 +39,7 @@ class EntryController (val entryService: EntryService) {
             val entry = entryService.findById(id)
             return ResponseEntity(entry, HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro na consulta do lançamentos financeiro. Motivo: " + e.message
+            val msg = "Erro na consulta do lançamentos financeiro. Motivo: ${e.message}"
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -50,7 +50,18 @@ class EntryController (val entryService: EntryService) {
             val entries = entryService.findByCategoryName(categoryName)
             return ResponseEntity(entries, HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.message
+            val msg = "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: ${e.message}"
+            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    @GetMapping("/{categoryName}/sum")
+    fun sumEntriesByCategoryName(@PathVariable("categoryName") categoryName: String): ResponseEntity<Any> {
+        try {
+            val total = entryService.sumEntriesByCategory(categoryName)
+            return ResponseEntity(total, HttpStatus.OK)
+        } catch (e: Exception) {
+            val msg = "Erro na soma dos lançamentos financeiro por nome da categoria. Motivo: ${e.message}"
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -61,7 +72,7 @@ class EntryController (val entryService: EntryService) {
             entryService.delete(id)
             return ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro na deleção do lançamento financeiro. Motivo: " + e.message
+            val msg = "Erro na deleção do lançamento financeiro. Motivo: ${e.message}"
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
@@ -72,9 +83,8 @@ class EntryController (val entryService: EntryService) {
             entryService.generateEntries()
             return ResponseEntity(HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro na carga de lançamentos financeiro. Motivo: " + e.message
+            val msg = "Erro na carga de lançamentos financeiro. Motivo: ${e.message}"
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
-
     }
 }

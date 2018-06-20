@@ -3,6 +3,7 @@ package br.com.iftm.financeiroapi.model.service.impl
 import br.com.iftm.financeiroapi.model.domain.Category
 import br.com.iftm.financeiroapi.model.domain.Entry
 import br.com.iftm.financeiroapi.model.exceptions.BusinessException
+import br.com.iftm.financeiroapi.model.extends.sumEntries
 import br.com.iftm.financeiroapi.model.repository.EntryRepository
 import br.com.iftm.financeiroapi.model.service.EntryService
 import org.slf4j.LoggerFactory
@@ -28,7 +29,7 @@ class EntryServiceImpl : EntryService {
     override fun save(entry: Entry): Entry {
         logger.info("Início do salvar ou atualizar...")
         val start = LocalTime.now()
-        val aux= entryRepository.findById(entry.id)
+        val aux = entryRepository.findById(entry.id)
         if (aux != null) {
             entryRepository.update(entry)
             val end = LocalTime.now()
@@ -80,7 +81,6 @@ class EntryServiceImpl : EntryService {
         logger.info("Fim da deleção por ID")
     }
 
-
 //    override fun findByCategoryName(categoryName: String): List<Entry> =
 //        findAll().filter { e -> e.categories.filter{ c -> c.name.contains(categoryName) }.count() > 0 }
 
@@ -113,6 +113,18 @@ class EntryServiceImpl : EntryService {
         val end = LocalTime.now()
         localTimeDifference(start, end, "Tempo de execução da carga de $range lançamentos financeiros: ")
         logger.info("Fim da carga de lançamentos financeiros")
+    }
+
+//    override fun sumEntriesByCategory(categoryName: String): BigDecimal = findByCategoryName(categoryName).sumEntries()
+
+    override fun sumEntriesByCategory(categoryName: String): BigDecimal {
+        logger.info("Início da soma dos lançamentos financeiros")
+        val start = LocalTime.now()
+        val total = findByCategoryName(categoryName).sumEntries()
+        val end = LocalTime.now()
+        localTimeDifference(start, end, "Tempo de execução da soma dos lançamentos financeiros: ")
+        logger.info("Fim da soma dos lançamentos financeiros")
+        return total
     }
 
     private fun randomNumber(): Int {

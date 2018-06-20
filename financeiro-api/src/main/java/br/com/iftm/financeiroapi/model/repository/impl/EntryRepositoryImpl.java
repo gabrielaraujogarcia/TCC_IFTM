@@ -21,7 +21,7 @@ import java.util.List;
 @Component
 public class EntryRepositoryImpl implements EntryRepository {
 
-    private static final String ENTRIES_FILE_PATH = "/financeiro-api/src/main/resources/database/entries.txt";
+    private static final String ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt";
     private static final Path PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH);
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper mapper = new ObjectMapper();

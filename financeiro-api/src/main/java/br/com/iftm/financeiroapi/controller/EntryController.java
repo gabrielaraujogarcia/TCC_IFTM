@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -57,6 +58,17 @@ public class EntryController {
         }  catch(Exception e) {
             String msg =  "Erro na consulta do lançamentos financeiro por nome da categoria. Motivo: " + e.getMessage();
             return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/{categoryName}/sum")
+    public ResponseEntity<Object> sumEntriesByCategoryName(@PathVariable("categoryName") String categoryName) {
+        try {
+            BigDecimal total = entryService.sumEntriesByCategory(categoryName);
+            return new ResponseEntity(total, HttpStatus.OK);
+        } catch (Exception e) {
+            String msg = "Erro na soma dos lançamentos financeiro por nome da categoria. Motivo: " + e.getMessage();
+            return new ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

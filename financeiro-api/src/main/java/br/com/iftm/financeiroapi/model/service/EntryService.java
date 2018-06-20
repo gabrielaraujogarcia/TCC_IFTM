@@ -5,6 +5,7 @@ import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -22,4 +23,5 @@ public interface EntryService {
 
     void generateEntries();
 
+    BigDecimal sumEntriesByCategory(String categoryName) throws IOException;
 }

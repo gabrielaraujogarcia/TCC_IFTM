@@ -2,6 +2,7 @@ package br.com.iftm.financeiroapi.model.service
 
 import br.com.iftm.financeiroapi.model.domain.Entry
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 
 @Service
 interface EntryService {
@@ -17,4 +18,5 @@ interface EntryService {
     fun findByCategoryName(categoryName: String): List<Entry>
 
     fun generateEntries()
+    fun sumEntriesByCategory(categoryName: String): BigDecimal
 }
