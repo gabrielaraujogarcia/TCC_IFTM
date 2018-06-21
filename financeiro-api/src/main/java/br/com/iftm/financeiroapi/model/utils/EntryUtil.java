@@ -8,6 +8,7 @@ import java.util.List;
 public abstract class EntryUtil {
 
 //    private static BigDecimal total = BigDecimal.ZERO;
+
     /*
      * Não foi possivel utilizar uma expressão lambda pois o escopo da variável total não é final e, sendo assim, não é
      * possível atribuir a variável total o resultado da operação total.add no corpo da expressão lambda após a operação

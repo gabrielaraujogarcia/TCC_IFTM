@@ -13,7 +13,6 @@ import java.math.BigDecimal
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.*
-import java.util.concurrent.Executors
 import java.util.stream.IntStream
 
 @Component
@@ -97,7 +96,6 @@ class EntryServiceImpl : EntryService {
     override fun generateEntries() {
         logger.info("Início da carga de lançamentos financeiros")
         val range = 30000
-        val executor = Executors.newFixedThreadPool(5)
         val start = LocalTime.now()
         IntStream.range(0, range).forEach { i ->
             val categories = HashSet<Category>()
@@ -109,7 +107,6 @@ class EntryServiceImpl : EntryService {
                     BigDecimal.ONE.multiply(BigDecimal.valueOf(i.toLong())), categories)
             entryRepository.save(entry)
         }
-        executor.shutdown()
         val end = LocalTime.now()
         localTimeDifference(start, end, "Tempo de execução da carga de $range lançamentos financeiros: ")
         logger.info("Fim da carga de lançamentos financeiros")

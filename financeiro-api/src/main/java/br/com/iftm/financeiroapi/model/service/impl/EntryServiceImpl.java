@@ -129,7 +129,7 @@ public class EntryServiceImpl implements EntryService {
     public BigDecimal sumEntriesByCategory(String categoryName) throws IOException {
         logger.info("Início da soma de lançamentos financeiros");
         LocalTime start = LocalTime.now();
-        BigDecimal total = EntryUtil.sumEntries(findAll());
+        BigDecimal total = EntryUtil.sumEntries(findByCategoryName(categoryName));
         LocalTime end = LocalTime.now();
         localTimeDifference(start, end, "Tempo para somar os lançamento financeiro pelo nome da categoria: ");
         logger.info("Fim da soma de lançamentos financeiros");

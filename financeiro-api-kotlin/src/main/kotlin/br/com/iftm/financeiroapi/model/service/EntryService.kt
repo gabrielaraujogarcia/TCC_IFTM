@@ -18,5 +18,6 @@ interface EntryService {
     fun findByCategoryName(categoryName: String): List<Entry>
 
     fun generateEntries()
+
     fun sumEntriesByCategory(categoryName: String): BigDecimal
 }

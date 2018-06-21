@@ -17,7 +17,6 @@ class EntryController (val entryService: EntryService) {
             return ResponseEntity(response, HttpStatus.OK)
         } catch (e: Exception) {
             val msg = "Erro no cadastro de lançamento financeiro. Motivo: ${e.message}"
-            e.printStackTrace()
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
