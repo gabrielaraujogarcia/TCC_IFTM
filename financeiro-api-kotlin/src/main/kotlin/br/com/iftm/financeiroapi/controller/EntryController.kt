@@ -2,13 +2,14 @@ package br.com.iftm.financeiroapi.controller
 
 import br.com.iftm.financeiroapi.model.domain.Entry
 import br.com.iftm.financeiroapi.model.service.EntryService
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/entry")
-class EntryController (val entryService: EntryService) {
+class EntryController (@Qualifier("entryServiceImpl") val entryService: EntryService) {
 
     @PostMapping
     fun save(@RequestBody entry: Entry): ResponseEntity<Any> {
@@ -16,7 +17,8 @@ class EntryController (val entryService: EntryService) {
             val response = entryService.save(entry)
             return ResponseEntity(response, HttpStatus.OK)
         } catch (e: Exception) {
-            val msg = "Erro no cadastro de lançamento financeiro. Motivo: ${e.message}"
+            val msg = "Erro no cadastro de lançamento financeiro. Moti" +
+                    "vo: ${e.message}"
             return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }

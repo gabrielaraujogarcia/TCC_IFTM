@@ -8,6 +8,7 @@ import br.com.iftm.financeiroapi.model.repository.EntryRepository
 import br.com.iftm.financeiroapi.model.service.EntryService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.time.LocalTime
@@ -16,6 +17,7 @@ import java.util.*
 import java.util.stream.IntStream
 
 @Component
+@Qualifier("entryServiceImpl")
 class EntryServiceImpl : EntryService {
 
     private val logger = LoggerFactory.getLogger(EntryServiceImpl::class.java.name)
@@ -42,10 +44,6 @@ class EntryServiceImpl : EntryService {
         return entry
     }
 
-//    @Throws(BusinessException::class)
-//    override fun findById(id: String): Entry =
-//            entryRepository.findById(id) ?: throw BusinessException("Registro não encontrado!")
-
     @Throws(BusinessException::class)
     override fun findById(id: String): Entry {
         logger.info("Início da consulta por ID")
@@ -57,8 +55,6 @@ class EntryServiceImpl : EntryService {
         return entry
     }
 
-//    override fun findAll(): List<Entry> = entryRepository.findAll()
-
     override fun findAll(): List<Entry> {
         logger.info("Início da consulta de todos os lançamentos financeiros")
         val start = LocalTime.now()
@@ -69,8 +65,6 @@ class EntryServiceImpl : EntryService {
         return entries
     }
 
-//    override fun delete(id: String) = entryRepository.delete(id)
-
     override fun delete(id: String) {
         logger.info("Início da deleção por ID")
         val start = LocalTime.now()
@@ -79,9 +73,6 @@ class EntryServiceImpl : EntryService {
         localTimeDifference(start, end, "Tempo para deletear o lançamento financeiro pelo ID: ")
         logger.info("Fim da deleção por ID")
     }
-
-//    override fun findByCategoryName(categoryName: String): List<Entry> =
-//        findAll().filter { e -> e.categories.filter{ c -> c.name.contains(categoryName) }.count() > 0 }
 
     override fun findByCategoryName(categoryName: String): List<Entry> {
         logger.info("Início da consulta dos lançamentos financeiros pelo nome da categoria")
@@ -112,8 +103,6 @@ class EntryServiceImpl : EntryService {
         logger.info("Fim da carga de lançamentos financeiros")
     }
 
-//    override fun sumEntriesByCategory(categoryName: String): BigDecimal = findByCategoryName(categoryName).sumEntries()
-
     override fun sumEntriesByCategory(categoryName: String): BigDecimal {
         logger.info("Início da soma dos lançamentos financeiros")
         val start = LocalTime.now()
@@ -124,9 +113,7 @@ class EntryServiceImpl : EntryService {
         return total
     }
 
-    private fun randomNumber(): Int {
-        return Random().nextInt(5 - 1 + 1) + 1
-    }
+    private fun randomNumber(): Int = Random().nextInt((5 - 1) + 1)
 
     private fun localTimeDifference(start: LocalTime, end: LocalTime, msg: String) {
         val diff = ChronoUnit.MILLIS.between(start, end)
