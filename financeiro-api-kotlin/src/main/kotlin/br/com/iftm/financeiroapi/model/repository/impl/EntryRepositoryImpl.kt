@@ -1,7 +1,6 @@
 package br.com.iftm.financeiroapi.model.repository.impl
 
 import br.com.iftm.financeiroapi.model.domain.Entry
-import br.com.iftm.financeiroapi.model.exceptions.BusinessException
 import br.com.iftm.financeiroapi.model.repository.EntryRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -16,37 +15,34 @@ import java.nio.file.StandardOpenOption
 @Component
 class EntryRepositoryImpl: EntryRepository {
 
-    private val ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt"
-    private val PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH)
+    private val USER_DIR = Paths.get(System.getProperty("user.dir"))
+    private val ENTRIES_FILE = USER_DIR.parent.resolve("entries.txt")
     private val log = LoggerFactory.getLogger(this.javaClass)
     private val mapper = ObjectMapper().registerModule(KotlinModule())
 
     init {
-        log.info("Validação do path $PATH")
-        validatePath()
-        log.info("Path OK")
+        log.info("Validação do ENTRIES_FILE $ENTRIES_FILE")
+        validateENTRIES_FILE()
+        log.info("ENTRIES_FILE OK")
     }
 
     override fun save(entry: Entry) {
         val line = mapper.writeValueAsString(entry)
-        Files.write(PATH, line.toByteArray(Charset.forName("UTF-8")), StandardOpenOption.APPEND)
-        Files.write(PATH, System.getProperty("line.separator").toByteArray(), StandardOpenOption.APPEND)
+        Files.write(ENTRIES_FILE, line.toByteArray(Charset.forName("UTF-8")), StandardOpenOption.APPEND)
+        Files.write(ENTRIES_FILE, System.getProperty("line.separator").toByteArray(), StandardOpenOption.APPEND)
     }
 
     override fun findAll(): List<Entry> {
         val entries = ArrayList<Entry>()
-        Files.readAllLines(PATH)
+        Files.readAllLines(ENTRIES_FILE)
                 .filter {line -> line.isNotBlank() }
                 .forEach{line -> entries.add(mapper.readValue(line, Entry::class.java))}
         return entries
-
     }
 
-    override fun findById(id: String): Entry? {
-        return findAll()
-                .filter { e -> e.id == id }
-                .firstOrNull()
-    }
+    override fun findById(id: String): Entry? = findAll()
+            .filter { e -> e.id == id }
+            .firstOrNull()
 
     override fun update(entry: Entry) {
         val updated = ArrayList<String>()
@@ -57,7 +53,7 @@ class EntryRepositoryImpl: EntryRepository {
                     updated.add(mapper.writeValueAsString(e))
                 }
         }
-        Files.write(PATH, updated)
+        Files.write(ENTRIES_FILE, updated)
     }
 
     override fun delete(id: String) {
@@ -67,14 +63,13 @@ class EntryRepositoryImpl: EntryRepository {
                 updated.add(mapper.writeValueAsString(e))
             }
         }
-        Files.write(PATH, updated)
+        Files.write(ENTRIES_FILE, updated)
     }
 
-    private fun validatePath() {
-        if (!Files.exists(PATH)) {
-            val msg = "O arquivo $ENTRIES_FILE_PATH não existe!"
-            log.error(msg)
-            throw BusinessException(msg)
+    private fun validateENTRIES_FILE() {
+        if (!Files.exists(ENTRIES_FILE)) {
+            Files.createFile(ENTRIES_FILE);
+            log.info("ARQUIVO CRIADO NO DIRETÓRIO: $ENTRIES_FILE")
         }
     }
 

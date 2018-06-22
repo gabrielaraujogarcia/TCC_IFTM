@@ -3,7 +3,6 @@ package br.com.iftm.financeiroapi.controller;
 import br.com.iftm.financeiroapi.model.domain.Entry;
 import br.com.iftm.financeiroapi.model.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import java.util.List;
 public class EntryController {
 
     @Autowired
-    @Qualifier("entryServiceImpl") private EntryService entryService;
+    private EntryService entryService;
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestBody Entry entry) {
@@ -84,14 +83,4 @@ public class EntryController {
         }
     }
 
-    @PostMapping("/generate")
-    public ResponseEntity<Object> generateEntries() {
-        try {
-            entryService.generateEntries();
-            return new ResponseEntity<>(HttpStatus.OK);
-        }  catch(Exception e) {
-            String msg =  "Erro na carga de lançamentos financeiro. Motivo: " + e.getMessage();
-            return new ResponseEntity<>(msg, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

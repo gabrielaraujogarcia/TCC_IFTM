@@ -21,7 +21,5 @@ public interface EntryService {
 
     List<Entry> findByCategoryName(String categoryName) throws IOException;
 
-    void generateEntries();
-
     BigDecimal sumEntriesByCategory(String categoryName) throws IOException;
 }

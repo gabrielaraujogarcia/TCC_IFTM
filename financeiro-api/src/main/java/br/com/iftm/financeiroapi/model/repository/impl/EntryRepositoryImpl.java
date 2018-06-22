@@ -1,7 +1,6 @@
 package br.com.iftm.financeiroapi.model.repository.impl;
 
 import br.com.iftm.financeiroapi.model.domain.Entry;
-import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import br.com.iftm.financeiroapi.model.repository.EntryRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,13 +20,13 @@ import java.util.List;
 @Component
 public class EntryRepositoryImpl implements EntryRepository {
 
-    private static final String ENTRIES_FILE_PATH = "/src/main/resources/database/entries.txt";
-    private static final Path PATH = Paths.get(System.getProperty("user.dir"), ENTRIES_FILE_PATH);
+    private static final Path USER_DIR = Paths.get(System.getProperty("user.dir"));
+    private static final Path ENTRIES_FILE = USER_DIR.getParent().resolve("entries.txt");
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public EntryRepositoryImpl() throws BusinessException {
-        log.info("Validação do path $PATH");
+    public EntryRepositoryImpl() throws IOException {
+        log.info("Validação do path " + ENTRIES_FILE);
         validatePath();
         log.info("Path OK");
     }
@@ -35,14 +34,14 @@ public class EntryRepositoryImpl implements EntryRepository {
     @Override
     public void save(Entry entry) throws IOException {
         String line = mapper.writeValueAsString(entry);
-        Files.write(PATH, line.getBytes(Charset.forName("UTF-8")), StandardOpenOption.APPEND);
-        Files.write(PATH, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
+        Files.write(ENTRIES_FILE, line.getBytes(Charset.forName("UTF-8")), StandardOpenOption.APPEND);
+        Files.write(ENTRIES_FILE, System.getProperty("line.separator").getBytes(), StandardOpenOption.APPEND);
     }
 
     @Override
     public List<Entry> findAll() throws IOException {
         List<Entry> entries = new ArrayList<>();
-        Files.readAllLines(PATH).stream()
+        Files.readAllLines(ENTRIES_FILE).stream()
                 .filter(line ->  !line.isEmpty())
                 .forEach(line -> {
                     try {
@@ -76,7 +75,7 @@ public class EntryRepositoryImpl implements EntryRepository {
                 ex.printStackTrace();
             }
         });
-        Files.write(PATH, updated);
+        Files.write(ENTRIES_FILE, updated);
     }
 
     @Override
@@ -91,14 +90,18 @@ public class EntryRepositoryImpl implements EntryRepository {
                 }
             }
         });
-        Files.write(PATH, updated);
+        Files.write(ENTRIES_FILE, updated);
     }
 
-    private void validatePath() throws BusinessException {
-        if(!Files.exists(PATH)) {
-            String msg = "O arquivo " + ENTRIES_FILE_PATH + " não existe!";
-            log.error(msg);
-            throw new BusinessException(msg);
+    private void validatePath() throws IOException {
+        if (!Files.exists(ENTRIES_FILE)) {
+            try {
+                Files.createFile(ENTRIES_FILE);
+            } catch (IOException e) {
+                log.error("ERRO AO CRIAR O ARQUIVO " + ENTRIES_FILE);
+                throw e;
+            }
+            log.info("ARQUIVO CRIADO NO DIRETÓRIO: " + ENTRIES_FILE);
         }
     }
 
