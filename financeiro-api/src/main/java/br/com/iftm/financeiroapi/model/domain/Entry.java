@@ -23,12 +23,7 @@ public class Entry {
 
     private Set<Category> categories;
 
-    public Entry() {
-
-    }
-
     public Entry(String description, Date date, BigDecimal value, Set<Category> categories) {
-        this.id = IdentifierUtil.generateUUID();
         this.description = description;
         this.date = date;
         this.value = value;

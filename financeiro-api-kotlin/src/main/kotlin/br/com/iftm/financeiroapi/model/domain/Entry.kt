@@ -1,5 +1,6 @@
 package br.com.iftm.financeiroapi.model.domain
 
+import br.com.iftm.financeiroapi.model.extends.generateUUID
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModelProperty
 import java.math.BigDecimal
@@ -14,5 +15,5 @@ data class Entry (
         var categories: Set<Category> = emptySet()
 ) {
     @ApiModelProperty(hidden = true)
-    var id: String = UUID.randomUUID().toString()
+    var id: String = generateUUID()
 }

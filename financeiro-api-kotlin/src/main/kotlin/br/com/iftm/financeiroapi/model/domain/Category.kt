@@ -1,12 +1,12 @@
 package br.com.iftm.financeiroapi.model.domain
 
+import br.com.iftm.financeiroapi.model.extends.generateUUID
 import io.swagger.annotations.ApiModelProperty
-import java.util.*
 
 data class Category (
 
         @ApiModelProperty(hidden = true)
-        var id: String = UUID.randomUUID().toString(),
+        var id: String = generateUUID(),
 
         var name: String = "",
 
