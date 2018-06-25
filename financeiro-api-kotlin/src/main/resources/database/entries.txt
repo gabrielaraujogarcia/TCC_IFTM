@@ -1,2 +1,0 @@
-{"id":"088cf951-3e63-4053-af85-01cace604b54","description":"string 2","date":"2018-06-15 00:31:46","value":0,"categories":[{"id":"e208ead2-1031-4f3b-873c-2d0f811b28b4","name":"string","color":"string"},{"id":"835adcac-edbe-4eef-a3ed-72f696499b88","name":"string 2","color":"string 2"}]}
-{"id":"A421A37B10C94C05858F96EED05123F6","description":"string 2","date":"2018-06-15 00:31:46","value":0,"categories":[{"id":"AB0D38DCAFCE433196FC49FC48CA4D08","name":"string","color":"string"},{"id":"A1DD0A87D8A0452DAB89145E7495E375","name":"string 2","color":"string 2"}]}

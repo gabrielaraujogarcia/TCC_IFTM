@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/entry")
-class EntryController (@Qualifier("entryServiceImpl") val entryService: EntryService) {
+class EntryController (val entryService: EntryService) {
 
     @PostMapping
     fun save(@RequestBody entry: Entry): ResponseEntity<Any> {
@@ -78,14 +78,4 @@ class EntryController (@Qualifier("entryServiceImpl") val entryService: EntrySer
         }
     }
 
-    @PostMapping("/generate")
-    fun generateEntries(): ResponseEntity<Any> {
-        try {
-            entryService.generateEntries()
-            return ResponseEntity(HttpStatus.OK)
-        } catch (e: Exception) {
-            val msg = "Erro na carga de lançamentos financeiro. Motivo: ${e.message}"
-            return ResponseEntity(msg, HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
 }

@@ -13,11 +13,9 @@ interface EntryService {
 
     fun findAll(): List<Entry>
 
-    fun findById(id: String): Entry?
+    fun findById(id: String): Entry
 
     fun findByCategoryName(categoryName: String): List<Entry>
-
-    fun generateEntries()
 
     fun sumEntriesByCategory(categoryName: String): BigDecimal
 }
