@@ -30,7 +30,10 @@ public class EntryServiceImpl implements EntryService {
     private EntryRepository entryRepository;
 
     @Override
-    public Entry save(Entry entry) throws IOException {
+    public Entry save(Entry entry) throws IOException, BusinessException {
+        if(entry.getCategories().isEmpty()) {
+            throw new BusinessException("Deve ser informado ao menos uma categoria!");
+        }
         Entry aux = entryRepository.findById(entry.getId());
         if(aux != null) {
             entryRepository.update(entry);
