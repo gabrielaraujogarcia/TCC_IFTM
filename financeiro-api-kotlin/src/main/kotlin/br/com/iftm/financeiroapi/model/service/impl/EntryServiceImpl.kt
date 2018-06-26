@@ -36,8 +36,8 @@ class EntryServiceImpl : EntryService {
 
     override fun delete(id: String) = entryRepository.delete(id)
 
-    override fun findByCategoryName(categoryName: String): List<Entry> =
-            findAll().filter { e -> e.categories.filter{ c -> c.name.contains(categoryName) }.count() > 0 }
+    override fun findByCategoryName(categoryName: String): List<Entry> = findAll().filter { e ->
+        e.categories.filter{ c -> c.name.contains(categoryName) }.count() > 0 }
 
     override fun sumEntriesByCategory(categoryName: String): BigDecimal = findByCategoryName(categoryName).sumEntries()
 

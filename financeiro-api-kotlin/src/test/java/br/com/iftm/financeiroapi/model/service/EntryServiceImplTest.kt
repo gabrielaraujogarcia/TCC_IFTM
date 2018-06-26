@@ -86,25 +86,11 @@ class EntryServiceImplTest {
         }
     }
 
-//    private val LOGGER = LoggerFactory.getLOGGER(EntryServiceImpl::class.java.name)
-//    private val DEFAULT_CATEGORY_NAME = "Categoria_"
-//    private val DEFAULT_ENTRY_NAME = "Lançamento_"
-
     @Autowired
     lateinit var entryService: EntryService
 
-//    @BeforeClass
-//    fun init() {
-//        val entries = EntryRepositoryImpl().findAll()
-//        var range = 100000
-//        if (entries.count() < range) {
-//            range -= entries.size
-//            generateEntries(range)
-//        }
-//    }
-
     @Test
-    @Repeat(10)
+    @Repeat(100)
     fun saveTest() {
         var entry = getEntry(99998)
 
@@ -121,7 +107,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     fun updateTest() {
         var entry = entryService.findAll()[0]
         entry.description = "${entry.description} Alteração do JUnit ${LocalTime.now()}"
@@ -139,7 +125,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     @Throws(BusinessException::class)
     fun findByIdTest() {
         val entry = entryService.findAll()[10]
@@ -156,7 +142,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     fun findAllTest() {
         val start = LocalTime.now()
         LOGGER.info("Início da consulta de todos os lançamentos financeiros: $start")
@@ -170,7 +156,7 @@ class EntryServiceImplTest {
     }
 
     @Test(expected = BusinessException::class)
-    @Repeat(10)
+    @Repeat(100)
     @Throws(BusinessException::class)
     fun deleteTest() {
         val entry = entryService.findAll()[0]
@@ -193,7 +179,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     fun findByCategoryNameTest() {
         val categoryName = DEFAULT_CATEGORY_NAME + "1"
 
@@ -209,7 +195,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     @Throws(IOException::class)
     fun sumEntriesByCategoryTest() {
         val categoryName = DEFAULT_CATEGORY_NAME + "1"
@@ -224,49 +210,5 @@ class EntryServiceImplTest {
 
         Assert.assertTrue("A soma falhou", total != null && BigDecimal.ZERO != total)
     }
-
-
-
-//    fun getEntry(index: Int?): Entry {
-//        val categories = HashSet<Category>()
-//
-//        var categoryCode = randomNumber()
-//        categories.add(Category(DEFAULT_CATEGORY_NAME + categoryCode, "#FFFFF" + categoryCode))
-//
-//        categoryCode = randomNumber()
-//        categories.add(Category(DEFAULT_CATEGORY_NAME + categoryCode, "#00000" + categoryCode))
-//
-//        return Entry(DEFAULT_ENTRY_NAME + index, Date(),
-//                BigDecimal.TEN.multiply(BigDecimal.valueOf(randomNumber().toLong())), categories)
-//    }
-
-//    fun localTimeDifference(start: LocalTime, end: LocalTime, msg: String) {
-//        val diff = ChronoUnit.MILLIS.between(start, end)
-//        LOGGER.info("$msg $diff milisegundos, equivalentes à ${diff * 1.0 / 1000} segundos")
-//    }
-
-//    fun randomNumber(): Int {
-//        return Random().nextInt(5) + 1
-//    }
-
-//    fun generateEntries(range: Int) {
-//        val repository = EntryRepositoryImpl()
-//        LOGGER.info("Início da carga de lançamentos financeiros")
-//        val start = LocalTime.now()
-//
-//        IntStream.range(0, range).forEach { i ->
-//            val entry = getEntry(i)
-//
-//            try {
-//                repository.save(entry)
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-//        }
-//
-//        val end = LocalTime.now()
-//        localTimeDifference(start, end, "Tempo de execução da carga de $range lançamentos financeiros: ")
-//        LOGGER.info("Fim da carga de lançamentos financeiros")
-//    }
 
 }

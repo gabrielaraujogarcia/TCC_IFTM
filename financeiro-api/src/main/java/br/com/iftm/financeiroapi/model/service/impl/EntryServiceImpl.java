@@ -64,8 +64,8 @@ public class EntryServiceImpl implements EntryService {
 
     @Override
     public List<Entry> findByCategoryName(String categoryName) throws IOException {
-        return findAll().stream()
-                .filter(e -> e.getCategories().stream().filter(c -> c.getName().contains(categoryName)).count() > 0)
+        return findAll().stream().filter(e ->
+                e.getCategories().stream().filter(c -> c.getName().contains(categoryName)).count() > 0)
                 .collect(Collectors.toList());
     }
 

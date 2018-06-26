@@ -46,7 +46,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     public void saveTest() throws IOException, BusinessException {
         Entry entry = getEntry(99998);
 
@@ -63,7 +63,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     public void updateTest() throws IOException, BusinessException {
         Entry entry = entryService.findAll().get(0);
         entry.setDescription(entry.getDescription() + " Alteração do JUnit " + LocalTime.now());
@@ -82,7 +82,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     public void findByIdTest() throws IOException, BusinessException {
         Entry entry = entryService.findAll().get(10);
 
@@ -98,7 +98,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     public void findAllTest() throws IOException, BusinessException {
         LocalTime start = LocalTime.now();
         logger.info("Início da consulta de todos os lançamentos financeiros: " + start);
@@ -112,7 +112,7 @@ public class EntryServiceImplTest {
     }
 
     @Test(expected = BusinessException.class)
-    @Repeat(10)
+    @Repeat(100)
     public void deleteTest() throws IOException, BusinessException {
         Entry entry = entryService.findAll().get(0);
 
@@ -134,7 +134,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     public void findByCategoryNameTest() throws IOException {
         final String categoryName = DEFAULT_CATEGORY_NAME + "1";
 
@@ -150,7 +150,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(10)
+    @Repeat(100)
     public void sumEntriesByCategoryTest() throws IOException {
         final String categoryName = DEFAULT_CATEGORY_NAME + "1";
 
