@@ -5,6 +5,7 @@ import br.com.iftm.financeiroapi.model.domain.Entry;
 import br.com.iftm.financeiroapi.model.exceptions.BusinessException;
 import br.com.iftm.financeiroapi.model.repository.impl.EntryRepositoryImpl;
 import br.com.iftm.financeiroapi.model.service.impl.EntryServiceImpl;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,33 +30,65 @@ public class EntryServiceImplTest {
 
     private static final Logger logger = LoggerFactory.getLogger(EntryServiceImpl.class.getName());
     private static final String DEFAULT_CATEGORY_NAME = "Categoria_";
-    private static final String DEFAULT_ENTRY_NAME = "Lançamento_";
+    private static final String DEFAULT_ENTRY_DESCRIPTION = "Lançamento_";
+    private static final String FIND_CATEGORY_NAME = DEFAULT_CATEGORY_NAME + "2";
+
+    private static final Map<String, List<Long>> iterations = new HashMap<>();
+    private static final String SAVE = "saveTest";
+    private static final String UPDATE = "updateTest";
+    private static final String FIND_BY_ID = "findByIdTest";
+    private static final String FIND_ALL = "findAllTest";
+    private static final String DELETE = "deleteTest";
+    private static final String FIND_BY_CATEGORY_NAME = "findByCategoryNameTest";
+    private static final String SUM_ENTRIES_BY_CATEGORY = "sumEntriesByCategoryTest";
+    private static final String GENERATE_ENTRIES = "generateEntries";
 
     @Autowired
     private EntryService entryService;
 
     @BeforeClass
     public static void init() throws IOException {
+        iterations.put(SAVE, new ArrayList<>());
+        iterations.put(UPDATE, new ArrayList<>());
+        iterations.put(FIND_BY_ID, new ArrayList<>());
+        iterations.put(FIND_ALL, new ArrayList<>());
+        iterations.put(DELETE, new ArrayList<>());
+        iterations.put(FIND_BY_CATEGORY_NAME, new ArrayList<>());
+        iterations.put(SUM_ENTRIES_BY_CATEGORY, new ArrayList<>());
+        iterations.put(GENERATE_ENTRIES, new ArrayList<>());
+
         List<Entry> entries = new EntryRepositoryImpl().findAll();
-        int range = 100000;
+        int range = 10;
 
         if(entries.stream().count() < range) {
             range = range - entries.size();
             generateEntries(range);
         }
+
+        logger.info("Iniciando os testes na app Java");
+    }
+
+    @AfterClass
+    public static void end() {
+        logger.info("Iterações [JAVA]: " );
+        iterations.forEach((key, value) -> {
+            logger.info("Iterações do método " + key);
+            value.forEach(time -> logger.info(time.toString()));
+        });
+        logger.info("Fim dos testes na app Java");
     }
 
     @Test
     @Repeat(100)
     public void saveTest() throws IOException, BusinessException {
-        Entry entry = getEntry(99998);
+        Entry entry = getEntry(new Random().nextInt(999999999) + 1);
 
         LocalTime start = LocalTime.now();
         logger.info("Início do salvar: " + start);
         entry = entryService.save(entry);
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo para salvar o lançamento financeiro: ");
+        localTimeDifference(start, end, "Tempo para salvar o lançamento financeiro: ", SAVE);
         logger.info("Fim do salvar: " + end);
 
         Entry newEntry = entryService.findById(entry.getId());
@@ -73,7 +106,7 @@ public class EntryServiceImplTest {
         entry = entryService.save(entry);
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo para atualizar o lançamento financeiro: ");
+        localTimeDifference(start, end, "Tempo para atualizar o lançamento financeiro: ", UPDATE);
         logger.info("Fim do atualizar: " + end);
 
         Entry newEntry = entryService.findById(entry.getId());
@@ -91,7 +124,7 @@ public class EntryServiceImplTest {
         Entry newEntry = entryService.findById(entry.getId());
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo de consulta do lançamento financeiro pelo ID: ");;
+        localTimeDifference(start, end, "Tempo de consulta do lançamento financeiro pelo ID: ", FIND_BY_ID);;
         logger.info("Fim da consulta por ID: " + end);
 
         Assert.assertTrue("A consulta falhou", newEntry != null);
@@ -105,7 +138,7 @@ public class EntryServiceImplTest {
         List<Entry> entries = entryService.findAll();
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo de consulta de todas os lançamentos financeiros: ");
+        localTimeDifference(start, end, "Tempo de consulta de todas os lançamentos financeiros: ", FIND_ALL);
         logger.info("Fim da consulta de todos os lançamentos financeiros: " + end);
 
         Assert.assertTrue("A consulta falhou", !entries.isEmpty());
@@ -121,7 +154,7 @@ public class EntryServiceImplTest {
         entryService.delete(entry.getId());
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo para deletar o lançamento financeiro pelo ID: ");
+        localTimeDifference(start, end, "Tempo para deletar o lançamento financeiro pelo ID: ", DELETE);
         logger.info("Fim da deleção por ID: " + end);
 
         try {
@@ -136,14 +169,14 @@ public class EntryServiceImplTest {
     @Test
     @Repeat(100)
     public void findByCategoryNameTest() throws IOException {
-        final String categoryName = DEFAULT_CATEGORY_NAME + "1";
+        final String categoryName = FIND_CATEGORY_NAME;
 
         LocalTime start = LocalTime.now();
         logger.info("Início da consulta dos lançamentos financeiros pelo nome da categoria: " + start);
         List<Entry> entries = entryService.findByCategoryName(categoryName);
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo para consultar e filtrar os lançamento financeiro pelo nome da categoria: ");
+        localTimeDifference(start, end, "Tempo para consultar e filtrar os lançamento financeiro pelo nome da categoria: ", FIND_BY_CATEGORY_NAME);
         logger.info("Fim da consulta dos lançamentos financeiros pelo nome da categoria: " + end);
 
         Assert.assertTrue("A consulta falhou", !entries.isEmpty());
@@ -152,14 +185,14 @@ public class EntryServiceImplTest {
     @Test
     @Repeat(100)
     public void sumEntriesByCategoryTest() throws IOException {
-        final String categoryName = DEFAULT_CATEGORY_NAME + "1";
+        final String categoryName = FIND_CATEGORY_NAME;
 
         LocalTime start = LocalTime.now();
         logger.info("Início da soma de lançamentos financeiros: " + start);
         BigDecimal total = entryService.sumEntriesByCategory(categoryName);
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo para somar os lançamento financeiro pelo nome da categoria: ");
+        localTimeDifference(start, end, "Tempo para somar os lançamento financeiro pelo nome da categoria: ", SUM_ENTRIES_BY_CATEGORY);
         logger.info("Fim da soma de lançamentos financeiros: " + end);
 
         Assert.assertTrue("A soma falhou", total != null && !BigDecimal.ZERO.equals(total));
@@ -182,7 +215,7 @@ public class EntryServiceImplTest {
         });
 
         LocalTime end = LocalTime.now();
-        localTimeDifference(start, end, "Tempo de execução da carga de " + range + " lançamentos financeiros: ");
+        localTimeDifference(start, end, "Tempo de execução da carga de " + range + " lançamentos financeiros: ", GENERATE_ENTRIES);
         logger.info("Fim da carga de lançamentos financeiros");
     }
 
@@ -195,13 +228,14 @@ public class EntryServiceImplTest {
         categoryCode = randomNumber();
         categories.add(new Category(DEFAULT_CATEGORY_NAME + categoryCode, "#00000" + categoryCode));
 
-        return new Entry(DEFAULT_ENTRY_NAME + index, new Date(),
+        return new Entry(DEFAULT_ENTRY_DESCRIPTION + index, new Date(),
                 BigDecimal.TEN.multiply(BigDecimal.valueOf(new Long(randomNumber()))), categories);
     }
 
-    private static void localTimeDifference(LocalTime start, LocalTime end, String msg) {
+    private static void localTimeDifference(LocalTime start, LocalTime end, String msg, String key) {
         Long diff = ChronoUnit.MILLIS.between(start, end);
         logger.info(msg + diff + " milisegundos, equivalentes à " + diff * 1.0 / 1000 + " segundos");
+        iterations.get(key).add(diff);
     }
 
     private static int randomNumber() {
