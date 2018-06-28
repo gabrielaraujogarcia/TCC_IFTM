@@ -58,7 +58,7 @@ public class EntryServiceImplTest {
         iterations.put(GENERATE_ENTRIES, new ArrayList<>());
 
         List<Entry> entries = new EntryRepositoryImpl().findAll();
-        int range = 10;
+        int range = 100000;
 
         if(entries.stream().count() < range) {
             range = range - entries.size();

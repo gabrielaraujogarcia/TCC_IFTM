@@ -57,7 +57,7 @@ class EntryServiceImplTest {
             iterations[GENERATE_ENTRIES] = ArrayList()
 
             val entries = EntryRepositoryImpl().findAll()
-            var range = 10
+            var range = 100000
 
             if (entries.count() < range) {
                 range -= entries.size
@@ -75,7 +75,7 @@ class EntryServiceImplTest {
                 LOGGER.info("Iterações do método $key")
                 value.forEach { time -> LOGGER.info(time.toString()) }
             }
-            LOGGER.info("Fim dos testes na app Java")
+            LOGGER.info("Fim dos testes na app Kotlin")
         }
 
         fun generateEntries(range: Int) {
