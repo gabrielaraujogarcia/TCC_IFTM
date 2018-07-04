@@ -28,6 +28,8 @@ import java.util.stream.IntStream;
 @SpringBootTest
 public class EntryServiceImplTest {
 
+    private static final int REPEAT_TEST = 100;
+
     private static final Logger logger = LoggerFactory.getLogger(EntryServiceImpl.class.getName());
     private static final String DEFAULT_CATEGORY_NAME = "Categoria_";
     private static final String DEFAULT_ENTRY_DESCRIPTION = "Lançamento_";
@@ -79,7 +81,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void saveTest() throws IOException, BusinessException {
         Entry entry = getEntry(new Random().nextInt(999999999) + 1);
 
@@ -96,7 +98,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void updateTest() throws IOException, BusinessException {
         Entry entry = entryService.findAll().get(0);
         entry.setDescription(entry.getDescription() + " Alteração do JUnit " + LocalTime.now());
@@ -115,7 +117,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void findByIdTest() throws IOException, BusinessException {
         Entry entry = entryService.findAll().get(10);
 
@@ -131,7 +133,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void findAllTest() throws IOException, BusinessException {
         LocalTime start = LocalTime.now();
         logger.info("Início da consulta de todos os lançamentos financeiros: " + start);
@@ -145,7 +147,7 @@ public class EntryServiceImplTest {
     }
 
     @Test(expected = BusinessException.class)
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void deleteTest() throws IOException, BusinessException {
         Entry entry = entryService.findAll().get(0);
 
@@ -167,7 +169,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void findByCategoryNameTest() throws IOException {
         final String categoryName = FIND_CATEGORY_NAME;
 
@@ -183,7 +185,7 @@ public class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     public void sumEntriesByCategoryTest() throws IOException {
         final String categoryName = FIND_CATEGORY_NAME;
 

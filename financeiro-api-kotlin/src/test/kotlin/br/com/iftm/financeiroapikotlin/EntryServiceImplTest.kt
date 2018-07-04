@@ -29,6 +29,8 @@ class EntryServiceImplTest {
 
     companion object {
 
+        const val REPEAT_TEST: Int = 100
+
         private val LOGGER = LoggerFactory.getLogger(EntryServiceImpl::class.java.name)
         private val DEFAULT_CATEGORY_NAME = "Categoria_"
         private val DEFAULT_ENTRY_DESCRIPTION = "Lançamento_"
@@ -43,6 +45,8 @@ class EntryServiceImplTest {
         private val FIND_BY_CATEGORY_NAME = "findByCategoryNameTest"
         private val SUM_ENTRIES_BY_CATEGORY = "sumEntriesByCategoryTest"
         private val GENERATE_ENTRIES = "generateEntries"
+
+
 
         @BeforeClass
         @JvmStatic
@@ -127,7 +131,7 @@ class EntryServiceImplTest {
     lateinit var entryService: EntryService
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     fun saveTest() {
         var entry = getEntry(Random().nextInt(999999999) + 1)
 
@@ -144,7 +148,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     fun updateTest() {
         var entry = entryService.findAll()[0]
         entry.description = "${entry.description} Alteração do JUnit ${LocalTime.now()}"
@@ -162,7 +166,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     @Throws(BusinessException::class)
     fun findByIdTest() {
         val entry = entryService.findAll()[10]
@@ -179,7 +183,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     fun findAllTest() {
         val start = LocalTime.now()
         LOGGER.info("Início da consulta de todos os lançamentos financeiros: $start")
@@ -193,7 +197,7 @@ class EntryServiceImplTest {
     }
 
     @Test(expected = BusinessException::class)
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     @Throws(BusinessException::class)
     fun deleteTest() {
         val entry = entryService.findAll()[0]
@@ -216,7 +220,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     fun findByCategoryNameTest() {
         val categoryName = FIND_CATEGORY_NAME
 
@@ -232,7 +236,7 @@ class EntryServiceImplTest {
     }
 
     @Test
-    @Repeat(100)
+    @Repeat(REPEAT_TEST)
     @Throws(IOException::class)
     fun sumEntriesByCategoryTest() {
         val categoryName = FIND_CATEGORY_NAME
